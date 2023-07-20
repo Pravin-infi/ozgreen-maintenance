@@ -1,0 +1,32 @@
+<style>
+  body {
+    background-color: #4472c4;
+  }
+</style>
+
+<div class="login-main-bg-color">
+  <div class="main-container">
+    <div class="inner-row">
+      <div class="login_screen">
+        <img src="../../../assets/images/logo.png" alt="">
+        <h2>User Login</h2>
+        <form class="example-form" [formGroup]="loginform" (ngSubmit)="proceedlogin()">
+          <mat-form-field class="example-full-width">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username">
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" formControlName="password">
+          </mat-form-field>
+
+          <div>
+            <button class="lg-btn">Login</button>
+            <a routerLink="/register" color="accent">New User?</a>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

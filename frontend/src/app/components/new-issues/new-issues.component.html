@@ -1,0 +1,115 @@
+<app-header></app-header>
+    <!-- header -->
+    <section class="note_block">
+        <div class="main-container">
+            <form class="example-form" (ngSubmit)="proceedData()" >
+                <div class="inner-row">
+                    <div class="site_name">
+                        <mat-form-field class="example-full-width" style="width: 306px;margin: -20px;">
+                            <input type="text" placeholder="-- Select --" matInput [formControl]="mySiteName" [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                              <mat-option *ngFor="let option of filteredOptions" [value]="option.sitename">
+                                {{option.sitename}}
+                              </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        
+                    </div>
+                    <mat-form-field class="example-full-width" style="width: 306px;">
+                        <mat-label>Posted By Name</mat-label>
+                        <input matInput [(ngModel)]="postedByName">
+                    </mat-form-field>
+                    <div class="text-area-block">
+                        <div class="inner-flx-bx">
+                            <p>NOTES</p>
+                            <div class="undo_redo">
+                                <div class="undo_btn">
+                                    <img src="../../../assets/images/redo-undo.svg" alt="">
+                                </div>
+                                <div class="redo_btn">
+                                    <img src="../../../assets/images/redo-undo.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <textarea name="notes" id="" [(ngModel)]="notes" placeholder="Write Your Notes" required></textarea>
+                    </div>
+
+
+                    <div class="btn_block">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#cameraModal"><img src="../../../assets/images/camera.png" alt="" (click)="requestCameraPermission()"></button>
+                        <label class="cstm_upload"><img src="../../../assets/images/file.png" alt="">
+                            <input name="myImage" type="file" accept="image/*" (change)="getFileDetails($event)" multiple />
+                        </label>
+                    </div>
+                    <button type="submit" class="save_btn"> Save</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- Modal -->
+    <div class="modal fade image_grid" id="cameraModal" tabindex="-1" role="dialog"
+        aria-labelledby="cameraModalTitle" aria-hidden="true" data-bs-backdrop='static'>
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cameraModalLongTitle">Image</h5>
+                    <button type="button" class="btn-close" (click)="removeCameraPermission()"  data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="flx_bx">
+                        <!-- <webcam #webcam *ngIf="cameraPermissionGranted" [height]="465" [width]="465" ></webcam> -->
+                        <webcam name="webcam" *ngIf="cameraPermissionGranted" [height]="465"
+                            [width]="465"
+                            [trigger]="imageTrigger"
+                            (imageCapture)="captureImage($event)"
+                            (initError)="handleInitError($event)" id="webcamId">
+                        </webcam>
+                        <img [src]="imageSource" id="imgSrc" *ngIf="isCaptured" style="height: 100%; width: 200%;">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button mat-button data-bs-dismiss="modal" >Cancel</button> -->
+                    <button mat-raised-button color="primary" *ngIf="!isCaptured" (click)="triggerSnapshot()" [disabled]="!!error">Capture</button>
+                    <button class="btn btn-danger" *ngIf="isCaptured" (click)="removeCurrent()">Take Another</button>
+                    <button type="button" *ngIf="isCaptured" class="btn btn-secondary" data-bs-dismiss="modal">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade image_grid" id="cameraModal" tabindex="-1" role="dialog"
+        aria-labelledby="cameraModalTitle" aria-hidden="true" data-bs-backdrop='static'>
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cameraModalLongTitle">Image</h5>
+                    <button type="button" class="btn-close" (click)="removeCameraPermission()"  data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="flx_bx">
+                        <!-- <webcam #webcam *ngIf="cameraPermissionGranted" [height]="465" [width]="465" ></webcam> -->
+                        <div *ngIf="cameraPermissionGranted">
+                            <webcam name="webcam"
+                                    [height]="465"
+                                    [width]="465"
+                                    [trigger]="imageTrigger"
+                                    (imageCapture)="captureImage($event)"
+                                    [id]="webcamId">
+                            </webcam>
+                            <img [src]="imageSource" id="imgSrc" *ngIf="isCaptured" style="height: 100%; width: 200%;">
+                          </div>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button mat-button data-bs-dismiss="modal" >Cancel</button> -->
+                    <button mat-raised-button color="primary" *ngIf="!isCaptured" (click)="triggerSnapshot()" [disabled]="!!error">Capture</button>
+                    <button class="btn btn-danger" *ngIf="isCaptured" (click)="removeCurrent()">Take Another</button>
+                    <button type="button" *ngIf="isCaptured" class="btn btn-secondary" (click)="capturedImageUpload()" data-bs-dismiss="modal">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    

@@ -1,0 +1,156 @@
+<app-header></app-header>
+    <!-- header -->
+    <section class="note_block">
+        <div class="main-container">
+            <form class="example-form" (ngSubmit)="proceedLogData()" >
+                <div class="inner-row">
+                    <div class="site_name">
+                        <mat-form-field class="example-full-width" style="width: 306px;margin: -20px;">
+                            <input type="text" placeholder="  -- Select -- " aria-label="Number" matInput [formControl]="mySiteName" [matAutocomplete]="auto" >
+                            <mat-autocomplete #auto="matAutocomplete" style="color: black;" >
+                              <mat-option *ngFor="let option of filteredOptions | async" [value]="option.sitename">
+                                {{option.sitename}}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>                        
+                    </div>
+                    <mat-form-field class="example-full-width" style="width: 306px;">
+                        <mat-label>Posted By Name</mat-label>
+                        <input matInput value="{{ postedBy }}" readonly>
+                    </mat-form-field>
+                    <div class="site_name" style="background: #4472c4; margin-top: -15px;">
+                        <p>
+                            {{ buttonTimestamp }}
+                        
+                        </p>
+                    </div>
+                    
+                    <div class="text-area-block">
+                        <div class="inner-flx-bx">
+                            <p>NOTES</p>
+                            <div class="undo_redo">
+                                <div class="undo_btn">
+                                    <img src="../../../assets/images/redo-undo.svg" (click)="undo()" alt="">
+                                </div>
+                                <div class="redo_btn">
+                                    <img src="../../../assets/images/redo-undo.svg" (click)="redo()" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <textarea name="notes" id="" [(ngModel)]="notes" placeholder="Write Your Notes" ></textarea>
+                    </div>
+
+
+                    <div class="btn_block">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"><img src="../../../assets/images/image.png" alt=""> </button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#cameraModal"><img src="../../../assets/images/camera.png" alt="" (click)="requestCameraPermission()"></button>
+                        <label class="cstm_upload"><img src="../../../assets/images/file.png" alt="">
+                            <input name="myImage" type="file" accept="image/*" (change)="getFileDetails($event)" multiple />
+                        </label>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenter1"><img src="../../../assets/images/delete.png" alt=""> </button>
+                    </div>
+                    <button type="submit" class="save_btn"> Save</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    
+    <div class="modal fade image_grid" id="exampleModalCenter1" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-bs-backdrop='static'>
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">User Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>"Are you sure to delete?"</p>
+                    <div class="flx_del_btn">
+                        <button class="del_yes" data-bs-dismiss="modal" (click)="deleteIssueData()" >Yes</button>
+                        <button class="del_no close_mdl" data-bs-dismiss="modal">No</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade image_grid" id="cameraModal" tabindex="-1" role="dialog"
+        aria-labelledby="cameraModalTitle" aria-hidden="true" data-bs-backdrop='static'>
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cameraModalLongTitle">Image</h5>
+                    <button type="button" class="btn-close" (click)="removeCameraPermission()"  data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="flx_bx">
+                        <div *ngIf="cameraPermissionGranted">
+                            <webcam name="webcam"
+                                    [height]="465"
+                                    [width]="465"
+                                    [trigger]="imageTrigger"
+                                    (imageCapture)="captureImage($event)"
+                                    (initError)="handleInitError($event)"
+                                    id="webcamId">
+                            </webcam>
+                            <img [src]="imageSource" id="imgSrc" *ngIf="isCaptured" style="height: 100%; width: 200%;">
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button mat-button data-bs-dismiss="modal" >Cancel</button> -->
+                    <button mat-raised-button color="primary" *ngIf="!isCaptured" (click)="triggerSnapshot()" [disabled]="!!error">Capture</button>
+                    <button class="btn btn-danger" *ngIf="isCaptured" (click)="removeCurrent()">Take Another</button>
+                    <button type="button" *ngIf="isCaptured" class="btn btn-secondary" (click)="capturedImageUpload()" data-bs-dismiss="modal">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade image_grid" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-bs-backdrop='static'>
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="flx_bx" >
+                        <img *ngFor="let imgName of issuesImagelog" (click)="openFormModal($event)"  src="{{apiUrl}}assets/{{imgName.fileName}}" >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary closez_btn" data-bs-dismiss="modal" >Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade image_grid" id="myModal3" tabindex="-9" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">User Delete</h5>
+                </div>
+                <div class="modal-body image_del">
+                    <img id="popupSrc" [src]="imgSrc" alt="">
+                    <div class="flx_del_btn">
+                        <button class="del_yes close_mdl" data-bs-dismiss="modal" (click)="deleteImage()">Delete</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    

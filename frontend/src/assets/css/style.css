@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* * */
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Open Sans', sans-serif;
+
+}
+
+.inner-row {
+    padding: 0px 20px;
+}
+
+.main-container {
+    max-width: 1300px;
+    width: 100%;
+    margin: 0px auto;
+}
+
+a {
+    transition: all 0.3s ease-in;
+}
+
+
+/* * */
+/* header */
+.header {
+    position: sticky;
+    transition: all 0.3s ease-in;
+    padding: 10px 0px;
+    border-bottom: 1px solid #EBEBEB;
+}
+
+.header.sticky {
+    z-index: 99999;
+    top: 0px;
+    box-shadow: 0 0.125rem 0.25rem #000;
+    background-color: #EBEBEB;
+}
+
+.header .logo img {
+    max-width: 200px;
+    width: 100%;
+}
+.header .inner-flx-bx {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .inner-flx-bx .log_out {
+    background-color: #4472c4;
+    padding: 6px 10px;
+    border: 1px solid #2f528f;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.header .inner-flx-bx .log_out:hover {
+    background-color: #355998;
+    border: 1px solid #4472c4;
+    transition: all 0.3s ease-in;
+}
+
+.header .inner-flx-bx .log_out img {
+    max-width: 30px;
+    width: 100%;
+}
+/* header */
+/* table block  */
+.table-block .filter-block {
+    padding: 30px 0px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table-block .filter-block a {
+    background-color: #4472c4;
+    color: #fff;
+    text-decoration: none;
+    padding: 0px;
+    font-size: 16px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border: 1px solid #2f528f;
+    border-radius: 10px;
+    display: block;
+}
+
+.table-block .filter-block a:hover {
+    background-color: #355998;
+    border: 1px solid #4472c4;
+}
+
+.table-block .filter-block .filter_img {
+    background-color: #4472c4;
+    padding: 6px 10px;
+    border: 1px solid #2f528f;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    transition: all 0.3s ease-in;
+}
+
+.table-block .filter-block .filter_img:hover {
+    background-color: #355998;
+    border: 1px solid #4472c4;
+}
+
+.table-block .filter-block .filter_img svg {
+    max-width: 30px;
+    height: 30px;
+    width: 100%;
+}
+
+.inner-table {
+    background-color: #EBEBEB;
+    padding: 10px;
+}
+
+.inner-table thead th {
+    background-color: #4472c4;
+    color: #fff;
+}
+
+.inner-table .table {
+    margin: 0px;
+    word-wrap: break-word;
+    table-layout: fixed;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #fff;
+    transition: all 0.3s ease-in;
+}
+
+.inner-table .table img {
+    max-width: 100%;
+    height: 110px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.inner-table .table td {
+    /* display: flex; */
+    /* align-items: center; */
+    /* height: 0px; */
+    vertical-align: middle;
+    background-color: transparent;
+}
+
+.inner-table .table tr:hover {
+    background-color: #f1f1f1;
+    transition: all 0.3s ease-in;
+    cursor: pointer;
+}
+
+.inner-table .table td a {
+    word-wrap: break-word;
+    color: #222 !important;
+    text-decoration: none;
+}
+
+.inner-table .table td p {
+    font-size: 16px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.flex-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 30px 0px;
+}
+
+.flex-pagination ul {
+    display: flex;
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+    gap: 10px;
+
+}
+
+.flex-pagination ul a {
+    text-decoration: none;
+    color: #222 !important;
+    font-size: 18px;
+}
+
+.flex-pagination ul a:hover {
+    color: #2f528f;
+}
+
+.flex-pagination .left-arrow svg {
+    fill: #fff;
+    max-width: 30px;
+    height: 30px;
+    background-color: #4472c4;
+    border: 1px solid #2f528f;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.flex-pagination .right-arrow svg {
+    fill: #fff;
+    max-width: 30px;
+    height: 30px;
+    background-color: #4472c4;
+    border: 1px solid #2f528f;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.flex-pagination .right-arrow svg:hover {
+    background-color: #355998;
+    border: 1px solid #4472c4;
+}
+
+.flex-pagination .left-arrow svg:hover {
+    background-color: #355998;
+    border: 1px solid #4472c4;
+}
+
+/* table block  */

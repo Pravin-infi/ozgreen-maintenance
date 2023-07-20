@@ -1,0 +1,80 @@
+
+<app-header></app-header>
+<!-- header -->
+<section class="table-block">
+    <div class="main-container">
+        <div class="inner-row">
+            <div class="filter-block">
+                <a routerLink="/new"> New Issue</a>
+                <div class="filter_img "  data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                  
+                    <svg   xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20" id="filter">
+                        <path fill="none" fill-rule="evenodd" stroke="#fff" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="2" d="M20 0H0l8 9.46V16l4 2V9.46z"
+                            transform="translate(1 1)"></path>
+                    </svg>
+                </div>
+            </div>
+            <div class="inner-table table-responsive">
+                <table id="myTable" class="table table-bordered table-striped" datatable [dtOptions]="dtOptions" >                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Modal -->
+
+
+<!-- Modal -->
+<div class="modal fade modal_issue" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true" data-bs-backdrop='static'>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Search Issue</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="">
+                <div class="modal-body">
+                    
+
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="selectedDate" name="selectedDate">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <input type="text" placeholder="Site Name" aria-label="Site Name" matInput [formControl]="mySiteName" [matAutocomplete]="auto" name="mySiteName">
+                        <mat-autocomplete #auto="matAutocomplete" >
+                          <mat-option *ngFor="let option of filteredOptions" [value]="option.sitename">
+                            {{option.sitename}}
+                          </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    
+                    <mat-form-field class="example-full-width">
+                        <input type="text" placeholder="Posted By Name" aria-label="Posted By Name" matInput [formControl]="postedControl" [matAutocomplete]="auto2" name="postedBy">
+                        <mat-autocomplete #auto2="matAutocomplete" >
+                          <mat-option *ngFor="let option of filteredByOptions" [value]="option">
+                            {{ option }}
+                          </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <input matInput placeholder="Search" value="" [formControl]="searchName" name="searchName">
+                    </mat-form-field>
+                
+                </div>
+                <div class="modal-footer">
+                    <div class="search_btn">
+                        <button type="submit" (click)="siteFilter()" data-bs-dismiss="modal">Search</button>
+                    </div>
+                    <div class="reset_btn">
+                        <button type="reset" (click)="loadData()" data-bs-dismiss="modal"> Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
