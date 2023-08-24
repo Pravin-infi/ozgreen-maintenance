@@ -46,7 +46,7 @@ export class NewIssuesComponent implements OnInit {
 
     this.setSiteNameBasedOnCoordinates();
     this.onButtonPress()
-    
+    this.postedByName = sessionStorage.getItem('username');
 
     //this.filteredOptions = this.mySiteName.valueChanges.pipe(startWith(),map(value => this._filter(value)));
 
@@ -103,6 +103,11 @@ export class NewIssuesComponent implements OnInit {
         if(this.webcam != undefined){
           this.capturedImageUpload()
         }
+        this.api.getRequest('issue/sendIssueMail/'+ this.issueId).subscribe((res: any) => {
+          console.log(res);
+          
+        })
+        
         this.toastr.success('issue create succesfully ');
         this.router.navigate(['home']);
       } else {
