@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { IssueNotesService } from './issue-notes.service';
 import { IssueNotes } from './schemas/issue-notes.schemas';
 import { IssueNotesDto } from 'src/dto/issue-notes.dto';

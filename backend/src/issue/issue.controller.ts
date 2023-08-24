@@ -31,4 +31,9 @@ export class IssueController {
     async deleteIssue( @Param('id') id: string ): Promise < Issue > {
         return this.issueService.deleteIssueById(id);
     }
+
+    @Post('sendIssueMail')
+    async getIssueMail(@Body() requestBody: any): Promise<Issue[]> {        
+        return this.issueService.findAndMail(requestBody);
+    }
 }

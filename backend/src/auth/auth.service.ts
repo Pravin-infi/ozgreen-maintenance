@@ -59,20 +59,25 @@ export class AuthService {
 
         if (user.usertype === "Admin") {
           const token = this.jwtService.sign({ id: user._id });
-          const res = { token, userid: user._id, username: user.username, usertype: user.usertype };
+          const res = { token, userid: user._id, username: user.name, usertype: user.usertype };
           return res;
         }
 
         const code = Math.floor(100000 + Math.random() * 900000).toString();
         const to = user.email
         const subject = 'OTP for GCW site mainetatnce portal'
-        const body = 'Code is '+ code
+        //const body = 'Code is '+ code
+        const htmlContent = `
+            <p>Hi,</p>
+            <p>Code is ${code}</p>
+            <p>Thanks,</p>
+            <p>Reporting team</p>`;
 
         const mailOptions = {
             from: 'pravin@infinitysoftsystems.com',
             to,
             subject,
-            text: body,
+            html: htmlContent
           };
       
         await this.mailer.sendMail(mailOptions);
@@ -111,7 +116,7 @@ export class AuthService {
           }
       
           const token = this.jwtService.sign({ id: user._id });
-          const res = { token, userid: user._id, username: user.username };
+          const res = { token, userid: user._id, username: user.name };
       
           return res;
         } catch (error) {

@@ -7,7 +7,7 @@ import * as nodemailer from 'nodemailer';
       provide: 'MAILER',
       useFactory: () =>
       nodemailer.createTransport({
-        service: 'Gmail',
+        service: 'gmail',
         auth: {
           user: 'pravin@infinitysoftsystems.com',
           pass: 'Pr@Vin#5435$',
