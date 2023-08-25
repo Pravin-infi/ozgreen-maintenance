@@ -9,6 +9,8 @@ import { IssueNotesModule } from './issue-notes/issue-notes.module';
 import { UploadModule } from './upload/upload.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { SiteNameModule } from './site-name/site-name.module';
+import { ResetToken, ResetTokenSchema } from './auth/schemas/reset-token.schema'; 
+
 
 @Module({
   imports: [
@@ -17,9 +19,8 @@ import { SiteNameModule } from './site-name/site-name.module';
       envFilePath: '.env',
       isGlobal: true
     }),
-    MongooseModule.forRoot(
-      'mongodb://54.253.133.85/GCW_Maintenance',
-    ),
+    MongooseModule.forRoot('mongodb://54.253.133.85/GCW_Maintenance'),
+    MongooseModule.forFeature([{ name: 'ResetToken', schema: ResetTokenSchema }]), // Register the ResetToken model
     IssueModule,
     IssueNotesModule,
     UploadModule,

@@ -9,6 +9,8 @@ import { SignUpDto } from 'src/dto/signup.dto';
 import { LoginDto } from 'src/dto/login.dto';
 import { Transporter } from 'nodemailer';
 import { VerifyDto } from 'src/dto/verify.dto';
+import { ResetToken } from './schemas/reset-token.schema'; // Import the ResetToken model
+import * as crypto from 'crypto';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +19,7 @@ export class AuthService {
         @InjectModel(User.name)
         private userModel: Model<User>,
         private jwtService: JwtService,
+        @InjectModel(ResetToken.name) private  resetTokenModel: Model<ResetToken>,
     ){}
 
     async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
@@ -140,8 +143,87 @@ export class AuthService {
       return user;
     }
     
-      
+
+
+    // visahl code
+
+    async findByEmail( email: string): Promise<User | null> {
+      return this.userModel.findOne({ email }).exec();
+    }
+
       
 
+    async generateResetToken(userId: string) {
+     
+      const expiresAt = new Date();
+      expiresAt.setMinutes(expiresAt.getMinutes() + 15);
+      const token = crypto.randomBytes(20).toString('hex');
+      
+      const resetToken = new this.resetTokenModel({
+        userId,
+        token,
+        expiresAt,
+      });
+      return resetToken.save();
+    }
+
+
+    async validateResetToken(token: string): Promise<ResetToken | null> {
+      return this.resetTokenModel.findOne({ token, expiresAt: { $gt: new Date() } }).exec();
+    }
+  
+    async resetPassword(token: string, newPassword: string): Promise<void> {
+      const resetToken = await this.validateResetToken(token);
+      const user = await this.userModel.findById(resetToken.userId).exec();
     
+      if (!user) {
+        throw new Error('User not found');
+      }
+  
+      // // Update the user's password and delete the reset token
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      await user.save();
+      const a=await resetToken.deleteOne();
+      console.log(a);
+      
+
+
+
+    }
+
+
+    // sent mail
+
+
+    async sentMailForResetPassword(resetLink:string,name:string,email:string ): Promise<void>{
+      try {
+        //  const issueObjectId = new ObjectId(req.issueId);        
+    
+          const to = email;
+          const subject ="Reset Password"
+          const htmlContent = `
+          <p>Hi ${name},</p>
+          <p>You can reset your  password by clicking the link below. For increased security, this password reset link will expire in 15 minutes after it was sent.</p>
+          <br />
+          <a href=${resetLink}>Reset Password</button>
+          <br />
+          <p>Thanks</p>`;
+          
+          const mailOptions = {
+              from: 'pravin@infinitysoftsystems.com',
+              to,
+              subject,
+              html: htmlContent,
+            };
+            
+          return await this.mailer.sendMail(mailOptions);
+  
+      } catch (error) {
+        // Handle the error
+        console.error(error);
+        return null;
+      }
+    }
+        
 }

@@ -23,7 +23,7 @@ export class User extends Document {
     @Prop({ unique: [true, "Username entered"] })
     username: string;
 
-    @Prop()
+    @Prop({select:false})
     password: string;
 }
 

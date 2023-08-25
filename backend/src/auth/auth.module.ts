@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserSchema } from './schemas/auth.schemas';
 import { JwtStrategy } from './jwt.strategy';
 import { EmailModule } from './email.module';
+import { ResetTokenSchema } from './schemas/reset-token.schema';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { EmailModule } from './email.module';
       },
     }),
     MongooseModule.forFeature([{name: 'User', schema: UserSchema}]),
+    MongooseModule.forFeature([{name: 'ResetToken', schema: ResetTokenSchema}]),
     EmailModule
   ],
   providers: [AuthService, JwtStrategy],
