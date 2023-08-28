@@ -98,7 +98,6 @@ export class AuthController {
 
             await this.authService.resetPassword(token, password);
 
-            
         
         } 
         catch (error) {
